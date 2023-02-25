@@ -1,6 +1,5 @@
 import os                           #Terminal temizlemek için
 os.system('cls||clear')
-
 import json
 
 class User:
@@ -20,16 +19,18 @@ class UserRepo:
     def loadUsers(self):
         if os.path.exists('users.json'):
             with open('users.json','r',encoding='utf-8') as file:
-                #uu=[  json.loads(u)  for u in json.load(file)]  #load ile jsondan çekilen string json bilgi python dict bilgiye dönüşüyor
-                #print(uu)
-                #self.users.append(User(u['username'],u['password'],u['email']))
+                data=[json.loads(u)  for u in json.load(file)]  #load ile jsondan çekilen string json bilgi python dict bilgiye dönüşüyor
+                #print(data)
+                for u in data:   #Veri parça parça alınıp users verilerine obje olarak ekleniyor 
+                    #print(u['username'],u['password'],u['email'])
+                    self.users.append(User(u['username'],u['password'],u['email']))
                 
-                users=json.load(file) #load ile dosyadan json string bilgi çekiliyor
-                for u in users:
-                    u=json.loads(u) #Loads ile json bilgi python dict bilgiye dönüşüyor
+                #users=json.load(file) #load ile dosyadan json string bilgi çekiliyor
+                #for u in users:
+                    #u=json.loads(u) #Loads ile json bilgi python dict bilgiye dönüşüyor
                     #print(u)
-                    newUser=User(u['username'],u['password'],u['email'])
-                    self.users.append(newUser)
+                    #newUser=User(u['username'],u['password'],u['email'])
+                    #self.users.append(newUser)
                     #print(u['username'])
             #print(self.users)
 
@@ -40,6 +41,7 @@ class UserRepo:
         print('Kullanıcı oluşturuldu.')
 
     def login(self,username,password):
+
         for u in self.users:
             if u.username==username and u.password==password:
                 self.isLoggedIn=True
@@ -81,9 +83,12 @@ while True:
 
 
     elif secim=='2':
-        name=input('Username: ')
-        password=input('Password: ')
-        repo.login(name,password)
+        if repo.isLoggedIn:
+            print('Halihazırda giriş yapılmış bir hesap var.')
+        else:
+            name=input('Username: ')
+            password=input('Password: ')
+            repo.login(name,password)
     elif secim=='3':
         repo.logout()
     elif secim=='4':
