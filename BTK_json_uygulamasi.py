@@ -20,12 +20,18 @@ class UserRepo:
     def loadUsers(self):
         if os.path.exists('users.json'):
             with open('users.json','r',encoding='utf-8') as file:
+                #uu=[  json.loads(u)  for u in json.load(file)]  #load ile jsondan çekilen string json bilgi python dict bilgiye dönüşüyor
+                #print(uu)
+                #self.users.append(User(u['username'],u['password'],u['email']))
+                
                 users=json.load(file) #load ile dosyadan json string bilgi çekiliyor
                 for u in users:
                     u=json.loads(u) #Loads ile json bilgi python dict bilgiye dönüşüyor
+                    #print(u)
                     newUser=User(u['username'],u['password'],u['email'])
                     self.users.append(newUser)
-            print(self.users)
+                    #print(u['username'])
+            #print(self.users)
 
 
     def register(self, user:User):
@@ -33,8 +39,25 @@ class UserRepo:
         self.savetofile()
         print('Kullanıcı oluşturuldu.')
 
-    def login(self):
-        pass
+    def login(self,username,password):
+        for u in self.users:
+            if u.username==username and u.password==password:
+                self.isLoggedIn=True
+                self.currentUser=u
+                print('login yapıldu.Username: ',self.currentUser.username)
+                break
+
+    def logout(self):
+        self.isLoggedIn=False
+        print(self.currentUser.username,' kişisinden çıkış yapıldı.')
+        self.currentUser={}
+
+    def identity(self):
+        if self.isLoggedIn:
+            print(f'Giriş yapılmış hesabın kullanıcı adı:{self.currentUser.username}')
+        else:
+            print('Giriş yapılmadı.')
+
 
     def savetofile(self):
         liste=[json.dumps(u.__dict__) for u in self.users]   #user verileri önce dict sonra json a çevrilip liste halinde kaydediliyor
@@ -58,11 +81,13 @@ while True:
 
 
     elif secim=='2':
-        pass
+        name=input('Username: ')
+        password=input('Password: ')
+        repo.login(name,password)
     elif secim=='3':
-        pass
+        repo.logout()
     elif secim=='4':
-        pass
+        repo.identity()
     else:
         break #Exit
 
