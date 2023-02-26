@@ -16,12 +16,10 @@ def kur_ogren(kur_kodu):
     for kur in kurlar:
         #print(kur.td.text)
         if kur.td.text==kur_kodu:
-            ad=kur.find_all("td")[1].text
-            #print(kur.find_all("td",{"class":"right"}))
-            k=[k.text for k in kur.find_all("td",{"class":"right"})]
+            liste=[k.text for k in kur.find_all("td")]
 
-    print(f'www.ziraatbank.com.tr sidesinden alınan {ad} için gişe kur değerleri')
-    print(f'{ad} alış: {k[0]},\t{ad} satış: {k[1]}\n')
+    print(f'www.ziraatbank.com.tr sidesinden alınan {liste[1]} için gişe kur değerleri')
+    print(f'{liste[1]} alış: {liste[2]},\t{liste[1]} satış: {liste[3]}\n')
     print('İşlem için geçen süre:',time.time()-t)
 
 
