@@ -20,7 +20,7 @@ def kur_ogren(kur_kodu):
 
     print(f'www.ziraatbank.com.tr sidesinden alınan {liste[1]} için gişe kur değerleri')
     print(f'{liste[1]} alış: {liste[2]},\t{liste[1]} satış: {liste[3]}\n')
-    print('İşlem için geçen süre:',time.time()-t)
+    print(f'İşlem için geçen süre:{(time.time()-t):.2f} sn')
 
 
 while True:
